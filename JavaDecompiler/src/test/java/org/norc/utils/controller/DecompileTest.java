@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -20,20 +21,27 @@ public class DecompileTest {
 	}
 
 	@Test
-	public void testWriteJavaFileToOutDir() {
+	public void testCopyJavaFileToOutDir() {
 		Decompiler decompiler = new Decompiler(); 
 		decompiler.setInputDir( Paths.get("src/test/resources/input/") );
 		decompiler.setOutputDir( Paths.get("src/test/resources/input/"));
+		
+		Path testJavaFile = Paths.get("src/test/resources/TestJavaFile.java");
 		try {
-			decompiler.decompile();
+			decompiler.copyJavaFileToOutDir(testJavaFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
-		//TODO: use file walker to verify that class files exist
-		fail("Not yet implemented");
-		//File out = new File(testDir + testDir + "TestJavaFile.java");
-		//assertTrue(out.exists());
+		
+		Path out = Paths.get("src/test/resources/output/TestJavaFile.java");
+		try {
+			assertTrue(Files.isSameFile(testJavaFile, out));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
 
 }

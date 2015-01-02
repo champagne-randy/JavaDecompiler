@@ -12,6 +12,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+
 import main.java.org.norc.utils.decompiler.utils.FileFinder;
 
 public class Decompiler {
@@ -60,21 +61,6 @@ public class Decompiler {
 		}
 		
 		
-		public void decompile(){
-			
-			// Recursively search the input directory to get class files
-			getListofClassFiles();
-			
-			// decompile the class files
-			try {
-				processListOfClassFiles();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		
 		/*
 		 * This method validates the input and output directories and initializes the parameters
 		 * 
@@ -120,13 +106,33 @@ public class Decompiler {
 		}
 		
 		
+		public void decompile(){
+			
+			// Recursively search the input directory to get class files
+			try {
+				getListofClassFiles();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			// decompile the class files
+			try {
+				processListOfClassFiles();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
 		/**
 		 * This method uses the FileFinder tool to search the input directory to get all class files.
 		 * It stores them in the listClassFiles variable
 		 * 
 		 * TODO: handle exceptions
 		 */
-		public void getListofClassFiles() {
+		public void getListofClassFiles() throws Exception{
 			
 			String pattern = ".class";
 			
@@ -207,9 +213,9 @@ public class Decompiler {
 		 * This method writes one class file to output directory
 		 * it uses the package header to create subdirectories
 		 */
-		public void copyJavaFileToOutDir(File javaFile) throws IOException{
+		public void copyJavaFileToOutDir(Path testJavaFile) throws IOException{
 			// read the package header from file
-			FileReader reader = new FileReader(javaFile);
+			FileReader reader = new FileReader(testJavaFile.toFile());
 			BufferedReader in = new BufferedReader(reader);
 			String packageHeader =  in.readLine();
 			
@@ -227,8 +233,8 @@ public class Decompiler {
 			}
 			
 			// copy java file to subDirs
-			Path sourcePath = javaFile.toPath();
-			OutputStream outputStream = new FileOutputStream(outputDirRoot + outputSubDir +javaFile.getName());
+			Path sourcePath = testJavaFile.toFile().toPath();
+			OutputStream outputStream = new FileOutputStream(outputDirRoot + outputSubDir +testJavaFile.toFile().getName());
 			Files.copy(sourcePath,outputStream);
 			outputStream.close();
 		}
