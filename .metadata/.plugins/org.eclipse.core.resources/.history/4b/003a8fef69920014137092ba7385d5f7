@@ -57,7 +57,7 @@ public class Decompiler {
 				//decompiler.setOutputDir( Paths.get("src/test/resources/input/"));
 			}
 			
-			decompiler.run();
+			decompiler.decompile();
 		}
 		
 		
@@ -106,7 +106,7 @@ public class Decompiler {
 		}
 		
 		
-		public void run(){
+		public void decompile(){
 			
 			// Recursively search the input directory to get class files
 			try {
@@ -212,8 +212,6 @@ public class Decompiler {
 		/*
 		 * This method writes one class file to output directory
 		 * it uses the package header to create subdirectories
-		 * 
-		 * TODO: uses Path to subtract inputdirroot and get package structure that way
 		 */
 		public void copyJavaFileToOutDir(Path testJavaFile) throws IOException{
 			// read the package header from file
