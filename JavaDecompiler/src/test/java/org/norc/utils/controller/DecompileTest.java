@@ -16,7 +16,7 @@ public class DecompileTest {
 
 	@Before
 	public void setUp() throws Exception {
-		
+		// delete files from last test
 	}
 
 	@Test
