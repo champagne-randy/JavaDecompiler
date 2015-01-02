@@ -4,8 +4,10 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import main.java.org.norc.utils.controller.Decompiler;
+import main.java.org.norc.utils.decompiler.Decompiler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,19 +21,19 @@ public class DecompileTest {
 
 	@Test
 	public void testWriteJavaFileToOutDir() {
-		//fail("Not yet implemented");
-		String testDir = "src\\test\\java\\org\\norc\\utils\\controller\\";
-		File javaFile = new File(testDir + "TestJavaFile.java");
 		Decompiler decompiler = new Decompiler(); 
-		decompiler.setOutputDir(testDir);
+		decompiler.setInputDir( Paths.get("src/test/resources/input/") );
+		decompiler.setOutputDir( Paths.get("src/test/resources/input/"));
 		try {
-			decompiler.copyJavaFileToOutDir(javaFile);
-		} catch (IOException e) {
+			decompiler.decompile();
+		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
-		File out = new File(testDir + testDir + "TestJavaFile.java");
-		assertTrue(out.exists());
+		//TODO: use file walker to verify that class files exist
+		fail("Not yet implemented");
+		//File out = new File(testDir + testDir + "TestJavaFile.java");
+		//assertTrue(out.exists());
 	}
 
 }
