@@ -130,7 +130,7 @@ public class Decompiler {
 		 * This method uses the FileFinder tool to search the input directory to get all class files.
 		 * It stores them in the listClassFiles variable
 		 * 
-		 * TODO: handle exceptions
+		 * FIXME: handle exceptions
 		 */
 		public void getListofClassFiles() throws Exception{
 			
