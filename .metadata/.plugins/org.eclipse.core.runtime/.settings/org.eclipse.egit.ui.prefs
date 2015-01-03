@@ -1,3 +1,3 @@
-commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\n<messages>\n<message>Initial commit</message>\n</messages>
+commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\n<messages>\n<message>rebasing</message>\n<message>c</message>\n<message>commit</message>\n<message>checking in latest decompiler test code</message>\n<message>none</message>\n<message>improved testing methods</message>\n<message>Committing all files in project</message>\n<message>refactored a lot of things. Now using methods from nio package. Using&\#x0A;FileWalker api to search inputDir</message>\n<message>Initial commit</message>\n</messages>
 eclipse.preferences.version=1
 show_initial_config_dialog=false

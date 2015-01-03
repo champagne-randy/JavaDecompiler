@@ -1,12 +1,12 @@
+require_relative 'Formatter'
+require_relative 'Recording'
+
 class ScriptBuilder
     #project properties
-    attr_accessor :project_number, :cai_id, :formatter
     #consider adding validation for directory string
-    attr_accessor :input_file, :output_file
     #collection of recordings
-    attr_reader :recordings
+    attr_accessor :project_number, :cai_id, :formatter, :input_file, :output_file, :recordings
     
-    #not done
     # find a better word than formatter
     # implement input validation
     def initialize(project_number, cai_id, operation, input_file, output_file)
@@ -18,12 +18,9 @@ class ScriptBuilder
       @recordings = Array.new
     end
     
-    #not done
     def run
       read_inputs
-      #build table/command file lines
-      formatter.build_commands
-      #write to output file
+      formatter.build_commands(@recordings)
       write_output
     end
     
@@ -31,20 +28,18 @@ class ScriptBuilder
     # methods that follow are not accessible for outside objects
     private
     
-    #not done
     # read file
     # initialize each recording object and 
     # store in local collection
     def read_inputs
-      File.read(@input_file).each{ |recording_name|
+      File.open(@input_file).each_line  { |recording_name|
         @recordings += [Recording.new(recording_name)]
       }
     end
     
-    #not done
     # write the outputs of the @formatter to the @output_file
     def write_output
-      File.write(@output_file, formatter.to_s)
+      formatter.write_to(@output_file)
     end
     
 end

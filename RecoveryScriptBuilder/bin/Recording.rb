@@ -4,7 +4,7 @@ class Recording
     #set recordings properties
     def initialize(file_name)
       #split recording
-      name_arr = recording.split('_')
+      name_arr = file_name.split('_')
       #initialize parameters
       @su_id = name_arr[0]
       @call_id = name_arr[1] 

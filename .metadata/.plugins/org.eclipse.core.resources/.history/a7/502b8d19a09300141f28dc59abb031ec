@@ -1,0 +1,21 @@
+# interface to be implemented for each type of command file desired
+class Formatter
+    attr_accessor :commands
+    
+    def initialize(operation)
+      @commands = Array.new
+      #raise 'not yet implemented'
+    end
+    
+    def build_commands(recordings)
+      recordings.each { |recording| 
+        @commands += [",#{recording.su_id}"]
+      }
+      #raise 'not yet implemented'
+    end
+      
+    def to_s
+      @commands.each { |command| command.to_s }
+      #raise 'not yet implemented'
+    end
+end
