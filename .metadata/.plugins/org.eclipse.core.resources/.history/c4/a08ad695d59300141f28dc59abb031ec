@@ -1,5 +1,5 @@
 # interface to be implemented for each type of command file desired
-class Sample_Unit
+class Formatter
     attr_reader :commands
     
     def initialize(operation)

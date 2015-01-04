@@ -1,0 +1,5 @@
+package main.java.org.norc.utils.decompiler.draft_space;
+
+public class DiskSpace {
+
+}
