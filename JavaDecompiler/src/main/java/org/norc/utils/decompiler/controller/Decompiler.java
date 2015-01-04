@@ -171,27 +171,27 @@ public class Decompiler {
 		
 		
 		/*
-		 *  TODO: decompile the class files
-		 *  
-		 *  will only work if the package header is declared in the class file
+		 *  This methods loops through listClassFiles, decompile each classFile,
+		 *  creates the sub-directories to mirror the classFile package structure,
+		 *  and stores them in outputDirectory
 		 */
 		public void processListOfClassFiles() throws Exception {
 			 
 			if (listClassFiles != null){
-				for(Path file: listClassFiles){
-					
-					decompile(file);
+				for(Path classFile: listClassFiles){					
+					copyJavaFileToOutDir( decompile(classFile), getSubdir(classFile));
 				}
 			} else {
-				// TODO: allert user that there are no classes in the input directory
+				// TODO: alert user that there are no classes in the input directory
 			}
 		}
 		
 		
 		/*
 		 * TODO: make a call to the jar to decompile one class
+		 * TODO: return a Path to the decompiled java class
 		 */
-		public void decompile(Path Path) throws Exception{
+		public Path decompile(Path classFile) throws Exception{
 			// http://stackoverflow.com/questions/4936266/execute-jar-file-from-a-java-program
 			Process proc = Runtime.getRuntime().exec("java -jar Validate.jar");
 			proc.waitFor();
@@ -206,18 +206,36 @@ public class Decompiler {
 			byte c[]=new byte[err.available()];
 			err.read(c,0,c.length);
 			System.out.println(new String(c));
+			
+			Path decompiledJavaFile = null;
+			
+			return decompiledJavaFile;
+		}
+		
+		
+
+		/*
+		 * 
+		 * TODO: uses Path to subtract inputdirroot and get package structure that way
+		 * TODO: subtract two strings http://stackoverflow.com/questions/24107527/how-to-subtract-two-string-arrays-in-java-as-they-are-shown-in-code
+		 * TODO: Sting class contains(CharSequence e) method http://docs.oracle.com/javase/7/docs/api/java/lang/String.html#contains(java.lang.CharSequence)
+		 * TODO: String class replace(CharSequence e) method http://docs.oracle.com/javase/7/docs/api/java/lang/String.html#replace(java.lang.CharSequence,%20java.lang.CharSequence)
+		 * TODO: Path class relativize(Path other) http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html#relativize-java.nio.file.Path-
+		 * TODO: Path class subpath(int beginIndex, int endIndex) http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html#subpath-int-int-
+		 */
+		private Path getSubdir(Path classFile){
+			Path subpath = null;
+			return subpath;
 		}
 		
 		
 		/*
 		 * This method writes one class file to output directory
-		 * it uses the package header to create subdirectories
-		 * 
-		 * TODO: uses Path to subtract inputdirroot and get package structure that way
+		 * create subdirectories if they don't exist and save java file there
 		 */
-		public void copyJavaFileToOutDir(Path testJavaFile) throws IOException{
+		public void copyJavaFileToOutDir(Path javaFile, Path subDir ) throws IOException{
 			// read the package header from file
-			FileReader reader = new FileReader(testJavaFile.toFile());
+			FileReader reader = new FileReader(javaFile.toFile());
 			BufferedReader in = new BufferedReader(reader);
 			String packageHeader =  in.readLine();
 			
@@ -235,8 +253,8 @@ public class Decompiler {
 			}
 			
 			// copy java file to subDirs
-			Path sourcePath = testJavaFile.toFile().toPath();
-			OutputStream outputStream = new FileOutputStream(outputDirRoot + outputSubDir +testJavaFile.toFile().getName());
+			Path sourcePath = javaFile.toFile().toPath();
+			OutputStream outputStream = new FileOutputStream(outputDirRoot + outputSubDir +javaFile.toFile().getName());
 			Files.copy(sourcePath,outputStream);
 			outputStream.close();
 		}
