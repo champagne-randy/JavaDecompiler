@@ -1,0 +1,73 @@
+package main.java.org.norc.utils.decompiler.draft_space;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class FileDemo {
+   public static void main(String[] args) {
+      
+      File f = null;
+      File f1 = null;
+      
+      try{
+         // create new files
+         f = new File("test.txt");
+         f1 = new File("File/test1.txt");
+         
+         // returns integer value
+         int value = f.compareTo(f1);
+         
+         // prints
+         System.out.println("nameCount for f is : " + Paths.get("test.txt").getNameCount());
+         System.out.println("nameCount for f1 is : " + Paths.get("File/test1.txt").getNameCount());
+         
+         System.out.print("Lexicographically, ");
+         System.out.print("abstract path name test.txt");
+         
+         // if lexicographically, argument = abstract path name
+         if(value == 0)
+         {
+            System.out.print(" = ");
+         }
+         
+         // if lexicographically, argument < abstract path name
+         else if(value > 0)
+         {
+            System.out.print(" > ");
+         }
+         
+         // if lexicographically, the argument > abstract path name
+         else
+         {
+            System.out.print(" < ");
+         }
+         
+         // print
+         System.out.println("abstract path name File/test1.txt");
+         
+         // prints the value returned by compareTo()
+         System.out.print("Value returned: "+value);
+         
+         
+         
+         
+         
+         File level1 = new File("level1/");
+         level1.mkdir();
+         Path inputDirRoot = level1.toPath().toAbsolutePath();
+         
+         File level3 = new File("level1/level2/level3/");
+         level3.mkdirs();
+         Path classFile = level3.toPath().toAbsolutePath();
+         
+         Path subpath = classFile.subpath(inputDirRoot.getNameCount()-1,classFile.getNameCount());
+		 Path relativize = classFile.relativize(inputDirRoot);
+         
+		 System.out.println("Subpath is: " + subpath);
+		 System.out.println("Relativize is: " + relativize);
+      }catch(Exception e){
+         e.printStackTrace();
+      }
+   }
+}

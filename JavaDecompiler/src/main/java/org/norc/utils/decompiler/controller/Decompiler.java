@@ -27,17 +27,18 @@ public class Decompiler {
 		 * 
 		 * It uses the the cfr java decompiler as its engine: http://www.benf.org/other/cfr/
 		 *  
-		 * @param args
-		 * @throws Exception 
-		 * 
-		 * 		Arguments:
-		 *	 	args[0]:	input path
-		 *		args[1]:	output path
+		 * @param 	args[0]		fully qualified path to the input directory to be processed
+		 * @param	args[1]		fully qualified path to the output directory where to store decompiled java files
+		 * @throws 	Exception 
 		 *
 		 *TODO: use log4j to log outputs and exceptions 
 		 *TODO: handle exceptions in main method
+		 *TODO: work out encapsulation for this class http://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html
+		 *TODO: complete documentation http://www.oracle.com/technetwork/articles/java/index-137868.html
+		 *TODO: complete unit testing
+		 *TODO: use reflection to deal with testing private methods http://stackoverflow.com/questions/34571/how-to-test-a-class-that-has-private-methods-fields-or-inner-classes
 		 *
-		 *nextStep: processListOfClassFiles()
+		 *nextStep: 
 		 */
 		public static void main(String[] args) {
 			Decompiler decompiler = new Decompiler();		
@@ -64,12 +65,8 @@ public class Decompiler {
 		/*
 		 * This method validates the input and output directories and initializes the parameters
 		 * 
-		 * @param args
-		 * @throws Exception, InvalidPathException
-		 * 
-		 * 		Arguments:
-		 *	 	args[0]:	input path
-		 *		args[1]:	output path
+		 *@param 	args[0]		fully qualified path to the input directory to be processed
+		 *@param	args[1]		fully qualified path to the output directory where to store decompiled java files
 		 *
 		 *TODO: add validation on arguments
 		 *TODO: implement validation method/class to validate inputs
@@ -132,7 +129,7 @@ public class Decompiler {
 		 * 
 		 * FIXME: handle exceptions
 		 */
-		public void getListofClassFiles() throws Exception{
+		private void getListofClassFiles() throws Exception{
 			
 			String pattern = ".class";
 			
@@ -175,11 +172,11 @@ public class Decompiler {
 		 *  creates the sub-directories to mirror the classFile package structure,
 		 *  and stores them in outputDirectory
 		 */
-		public void processListOfClassFiles() throws Exception {
+		private void processListOfClassFiles() throws Exception {
 			 
 			if (listClassFiles != null){
 				for(Path classFile: listClassFiles){					
-					copyJavaFileToOutDir( decompile(classFile), getSubdir(classFile));
+					processOneClassFile(classFile);
 				}
 			} else {
 				// TODO: alert user that there are no classes in the input directory
@@ -187,11 +184,25 @@ public class Decompiler {
 		}
 		
 		
+		/**
+		 * This method processes one class file. This is to facilitate unit-testing.
+		 * It creates the sub-directories to mirror the classFile package structure,
+		 * and stores it to outputDirectory
+		 * 
+		 * @param 	classFile	a class file to be decompiled
+		 * @throws 	Exception
+		 * @return 	void 
+		 */
+		public void processOneClassFile(Path classFile) throws IOException, Exception{
+			copyJavaFileToOutDir( decompile(classFile), getSubdir(inputDirRoot, classFile));
+		}
+		
+		
 		/*
 		 * TODO: make a call to the jar to decompile one class
 		 * TODO: return a Path to the decompiled java class
 		 */
-		public Path decompile(Path classFile) throws Exception{
+		 private Path decompile(Path classFile) throws Exception{
 			// http://stackoverflow.com/questions/4936266/execute-jar-file-from-a-java-program
 			Process proc = Runtime.getRuntime().exec("java -jar Validate.jar");
 			proc.waitFor();
@@ -214,24 +225,29 @@ public class Decompiler {
 		
 		
 
-		/*
+		/**	
+		 * This method compares the absolute path of the child Path to that of the parent and
+		 * returns a Path representing the sub-directory. Uses method Path.subpath(int beginIndex, int endIndex) 
+		 * http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html#subpath-int-int-
 		 * 
-		 * TODO: uses Path to subtract inputdirroot and get package structure that way
-		 * TODO: subtract two strings http://stackoverflow.com/questions/24107527/how-to-subtract-two-string-arrays-in-java-as-they-are-shown-in-code
-		 * TODO: Sting class contains(CharSequence e) method http://docs.oracle.com/javase/7/docs/api/java/lang/String.html#contains(java.lang.CharSequence)
-		 * TODO: String class replace(CharSequence e) method http://docs.oracle.com/javase/7/docs/api/java/lang/String.html#replace(java.lang.CharSequence,%20java.lang.CharSequence)
-		 * TODO: Path class relativize(Path other) http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html#relativize-java.nio.file.Path-
-		 * TODO: Path class subpath(int beginIndex, int endIndex) http://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html#subpath-int-int-
+		 * @param 	parent		A Path object representing the parent directory
+		 * @param	child		A Path object representing the child directory
+		 * 
+		 * TODO: Does it work the same for files?
+		 * TODO: Test edge cases
+		 * TODO: handle exceptions
 		 */
-		private Path getSubdir(Path classFile){
-			Path subpath = null;
+		public Path getSubdir(Path parent, Path child){
+			Path parentAbsPath = parent.toAbsolutePath();
+			Path childAbsPath = child.toAbsolutePath();
+			Path subpath = child.subpath(parentAbsPath.getNameCount(),childAbsPath.getNameCount());
 			return subpath;
 		}
 		
 		
 		/*
 		 * This method writes one class file to output directory
-		 * create subdirectories if they don't exist and save java file there
+		 * create sub-directories if they don't exist and save java file there
 		 */
 		public void copyJavaFileToOutDir(Path javaFile, Path subDir ) throws IOException{
 			// read the package header from file
@@ -266,6 +282,6 @@ public class Decompiler {
 		public void setOutputDir(Path outputDirRoot) 	{ this.outputDirRoot = outputDirRoot; }
 		public Path getOutputDir()						{ return this.outputDirRoot; }
 		
-		public void setListOfClassFiles(List<Path> list){ this.listClassFiles = list; }
-		public List<Path> getlistOfClassFiles()			{ return this.listClassFiles; }
+		private void setListOfClassFiles(List<Path> list){ this.listClassFiles = list; }
+		private List<Path> getlistOfClassFiles()			{ return this.listClassFiles; }
 }

@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import main.java.org.norc.utils.decompiler.Decompiler;
+import main.java.org.norc.utils.decompiler.controller.Decompiler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,13 +22,15 @@ public class DecompileTest {
 
 	@Test
 	public void testCopyJavaFileToOutDir() {
+		// move this to the setUpBeofreTestSuite method
 		Decompiler decompiler = new Decompiler(); 
 		decompiler.setInputDir( Paths.get("src/test/resources/input/") );
-		decompiler.setOutputDir( Paths.get("src/test/resources/input/"));
+		decompiler.setOutputDir( Paths.get("src/test/resources/output/"));
 		
 		Path testJavaFile = Paths.get("src/test/resources/TestJavaFile.java");
+		Path subDir = Paths.get("level1/level2/level3/");
 		try {
-			decompiler.copyJavaFileToOutDir(testJavaFile);
+			decompiler.copyJavaFileToOutDir(testJavaFile, subDir);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
