@@ -6604,3 +6604,70 @@ org.eclipse.jgit.errors.TransportException: Nothing to push.
 
 !ENTRY org.eclipse.ui 4 4 2015-01-04 00:35:37.494
 !MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.ui.actions.Console
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:36:57.475
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.actions.refresh.all
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:36:57.476
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.actions.refresh.sourcefolders
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:36:57.476
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.actions.refresh.dependencies
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:36:57.477
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.ui.actions.DisableGradleNatureAction
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:36:57.477
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.ui.EnableDisableDependencyManagementActionDelegate
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:36:57.477
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.ui.actions.EnableDisableDSLSupportDelegate
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:36:57.477
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.ui.actions.Console
+
+!ENTRY org.eclipse.egit.core 4 0 2015-01-04 00:37:30.322
+!MESSAGE An exception occurred during push on URI https://github.com/champagne-randy/utils: Nothing to push.
+!STACK 0
+org.eclipse.jgit.errors.TransportException: Nothing to push.
+	at org.eclipse.jgit.transport.Transport.push(Transport.java:1170)
+	at org.eclipse.egit.core.op.PushOperation.run(PushOperation.java:197)
+	at org.eclipse.egit.ui.internal.push.PushWizard$PushJob.run(PushWizard.java:298)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+
+!ENTRY org.eclipse.egit.ui 4 0 2015-01-04 00:37:30.322
+!MESSAGE Can't connect to any repository: https://github.com/champagne-randy/utils (Nothing to push.)
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:38:03.532
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.actions.refresh.all
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:38:03.533
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.actions.refresh.sourcefolders
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:38:03.533
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.actions.refresh.dependencies
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:38:03.534
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.ui.actions.DisableGradleNatureAction
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:38:03.534
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.ui.EnableDisableDependencyManagementActionDelegate
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:38:03.534
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.ui.actions.EnableDisableDSLSupportDelegate
+
+!ENTRY org.eclipse.ui 4 4 2015-01-04 00:38:03.534
+!MESSAGE Plug-in 'org.springsource.ide.eclipse.gradle.ui' contributed an invalid Menu Extension (Path: 'org.springsource.ide.eclipse.gradle.menu' is invalid): org.springsource.ide.eclipse.gradle.ui.actions.Console
+
+!ENTRY org.eclipse.egit.core 4 0 2015-01-04 00:38:29.852
+!MESSAGE Repository contains unmerged paths
+!STACK 0
+org.eclipse.jgit.api.errors.UnmergedPathsException: Repository contains unmerged paths
+	at org.eclipse.jgit.api.RebaseCommand.continueRebase(RebaseCommand.java:764)
+	at org.eclipse.jgit.api.RebaseCommand.call(RebaseCommand.java:300)
+	at org.eclipse.egit.core.op.RebaseOperation$1.run(RebaseOperation.java:146)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2313)
+	at org.eclipse.egit.core.op.RebaseOperation.execute(RebaseOperation.java:163)
+	at org.eclipse.egit.core.internal.job.JobUtil$2.runInWorkspace(JobUtil.java:105)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:38)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
