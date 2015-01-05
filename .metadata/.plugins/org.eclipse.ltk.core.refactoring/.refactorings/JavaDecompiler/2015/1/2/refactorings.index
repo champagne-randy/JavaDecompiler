@@ -1,3 +1,5 @@
 1420398345663	Rename local variable 'testJavaFile'
 1420398769392	Rename local variable 'file'
 1420398791698	Rename local variable 'Path'
+1420419111062	Rename local variable 'tempFile'
+1420420702824	Rename local variable 'tempDir'

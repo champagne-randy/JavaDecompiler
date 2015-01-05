@@ -10,15 +10,12 @@ import java.nio.file.Paths;
 
 import main.java.org.norc.utils.decompiler.controller.Decompiler;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DecompileTest {
-
-	@Before
-	public void setUp() throws Exception {
-		// delete files from last test
-	}
 
 	@Test
 	public void testCopyJavaFileToOutDir() {
@@ -27,22 +24,17 @@ public class DecompileTest {
 		decompiler.setInputDir( Paths.get("src/test/resources/input/") );
 		decompiler.setOutputDir( Paths.get("src/test/resources/output/"));
 		
-		Path testJavaFile = Paths.get("src/test/resources/TestJavaFile.java");
+		Path testJavaFile = Paths.get("src/test/resources/input/TestJavaFile.java");
 		Path subDir = Paths.get("level1/level2/level3/");
+		Path newFile = null;
 		try {
-			decompiler.copyJavaFileToOutDir(testJavaFile, subDir);
+			newFile = decompiler.copyJavaFileToOutDir(testJavaFile, subDir);
+			assert(FileUtils.contentEquals(testJavaFile.toFile(),newFile.toFile()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
-		}
-		
-		Path out = Paths.get("src/test/resources/output/TestJavaFile.java");
-		try {
-			assertTrue(Files.isSameFile(testJavaFile, out));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail(e.getMessage());
+		} finally {
+			newFile.toFile().delete();
 		}
 	}
 

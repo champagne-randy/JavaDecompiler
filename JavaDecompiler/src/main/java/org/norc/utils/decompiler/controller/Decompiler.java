@@ -38,7 +38,7 @@ public class Decompiler {
 		 *TODO: complete unit testing
 		 *TODO: use reflection to deal with testing private methods http://stackoverflow.com/questions/34571/how-to-test-a-class-that-has-private-methods-fields-or-inner-classes
 		 *
-		 *nextStep: 
+		 *nextStep: copyJavaFileToOutDir()
 		 */
 		public static void main(String[] args) {
 			Decompiler decompiler = new Decompiler();		
@@ -167,7 +167,7 @@ public class Decompiler {
 		}
 		
 		
-		/*
+		/**
 		 *  This methods loops through listClassFiles, decompile each classFile,
 		 *  creates the sub-directories to mirror the classFile package structure,
 		 *  and stores them in outputDirectory
@@ -194,7 +194,12 @@ public class Decompiler {
 		 * @return 	void 
 		 */
 		public void processOneClassFile(Path classFile) throws IOException, Exception{
-			copyJavaFileToOutDir( decompile(classFile), getSubdir(inputDirRoot, classFile));
+			Path javaFile = decompile(classFile);
+			Path subDir = getSubdir(inputDirRoot, classFile);
+			Path newFile = copyJavaFileToOutDir( javaFile, subDir);
+			if((newFile!=null) && (newFile.toFile().exists())){
+				javaFile.toFile().delete();
+			}
 		}
 		
 		
@@ -245,34 +250,31 @@ public class Decompiler {
 		}
 		
 		
-		/*
+		/**
 		 * This method writes one class file to output directory
-		 * create sub-directories if they don't exist and save java file there
+		 * create sub-directories if they don't exist and save java file there. 
+		 * It returns a Path to the new file that was created or null if failed
+		 * 
+		 * @param	javaFile	a Path object of the java file to be copied 
+		 * @param	subDir		a Path object that is the package structure where to copy javaFile
+		 * @return	newFile		a Path object that is the new file copied or null if copy failed
 		 */
-		public void copyJavaFileToOutDir(Path javaFile, Path subDir ) throws IOException{
-			// read the package header from file
-			FileReader reader = new FileReader(javaFile.toFile());
-			BufferedReader in = new BufferedReader(reader);
-			String packageHeader =  in.readLine();
+		public Path copyJavaFileToOutDir(Path javaFile, Path subDir ) throws IOException{
+			boolean subDirIsCreated = false;
+			Path newFile = null;
 			
-			// strip "package " and everything after ";" 
-			String temp = packageHeader.substring(8, packageHeader.indexOf(";"));
-			// format it to a path relative to the outputDir
-			String outputSubDir = temp.replace(".", "/") + "/";
-			in.close();
-			reader.close(); 
-			
-			// if subdirs do not exist, create them
-			File tempFile = new File(outputDirRoot + outputSubDir);
-			if(!(tempFile.exists() || tempFile.isDirectory())){
-				boolean isSubDirCreated = tempFile.mkdirs();
+			File newDir = new File(outputDirRoot.toFile(), subDir.toString());
+			if(newDir.exists() || newDir.isDirectory()){
+				subDirIsCreated = true;
+			} else {
+				subDirIsCreated = newDir.mkdirs();
 			}
 			
-			// copy java file to subDirs
-			Path sourcePath = javaFile.toFile().toPath();
-			OutputStream outputStream = new FileOutputStream(outputDirRoot + outputSubDir +javaFile.toFile().getName());
-			Files.copy(sourcePath,outputStream);
-			outputStream.close();
+			if(subDirIsCreated){
+				newFile = newDir.toPath().resolve(javaFile.getFileName());				
+				Files.copy(javaFile, newFile);
+			}
+			return newFile;
 		}
 		
 		
@@ -283,5 +285,5 @@ public class Decompiler {
 		public Path getOutputDir()						{ return this.outputDirRoot; }
 		
 		private void setListOfClassFiles(List<Path> list){ this.listClassFiles = list; }
-		private List<Path> getlistOfClassFiles()			{ return this.listClassFiles; }
+		//private List<Path> getlistOfClassFiles()			{ return this.listClassFiles; }
 }
