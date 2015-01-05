@@ -1,17 +1,19 @@
 package main.java.org.norc.utils.decompiler.controller;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.benf.cfr.reader.Main;
+import org.benf.cfr.reader.state.DCCommonState;
+import org.benf.cfr.reader.util.getopt.Options;
+import org.benf.cfr.reader.util.getopt.OptionsImpl;
 
 import main.java.org.norc.utils.decompiler.utils.FileFinder;
 
@@ -171,34 +173,19 @@ public class Decompiler {
 		 *  This methods loops through listClassFiles, decompile each classFile,
 		 *  creates the sub-directories to mirror the classFile package structure,
 		 *  and stores them in outputDirectory
-		 */
-		private void processListOfClassFiles() throws Exception {
-			 
-			if (listClassFiles != null){
-				for(Path classFile: listClassFiles){					
-					processOneClassFile(classFile);
-				}
-			} else {
-				// TODO: alert user that there are no classes in the input directory
-			}
-		}
-		
-		
-		/**
-		 * This method processes one class file. This is to facilitate unit-testing.
-		 * It creates the sub-directories to mirror the classFile package structure,
-		 * and stores it to outputDirectory
 		 * 
 		 * @param 	classFile	a class file to be decompiled
 		 * @throws 	Exception
 		 * @return 	void 
 		 */
-		public void processOneClassFile(Path classFile) throws IOException, Exception{
-			Path javaFile = decompile(classFile);
-			Path subDir = getSubdir(inputDirRoot, classFile);
-			Path newFile = copyJavaFileToOutDir( javaFile, subDir);
-			if((newFile!=null) && (newFile.toFile().exists())){
-				javaFile.toFile().delete();
+		private void processListOfClassFiles() throws Exception {
+			 
+			if (listClassFiles != null){
+				for(Path classFile: listClassFiles){					
+					decompile(classFile);
+				}
+			} else {
+				// TODO: alert user that there are no classes in the input directory
 			}
 		}
 		
@@ -207,25 +194,12 @@ public class Decompiler {
 		 * TODO: make a call to the jar to decompile one class
 		 * TODO: return a Path to the decompiled java class
 		 */
-		 private Path decompile(Path classFile) throws Exception{
-			// http://stackoverflow.com/questions/4936266/execute-jar-file-from-a-java-program
-			Process proc = Runtime.getRuntime().exec("java -jar Validate.jar");
-			proc.waitFor();
-			// Then retrieve the process output
-			InputStream in = proc.getInputStream();
-			InputStream err = proc.getErrorStream();
-			// std.out
-			byte b[]=new byte[in.available()];
-			in.read(b,0,b.length);
-			System.out.println(new String(b));
-			// std.err
-			byte c[]=new byte[err.available()];
-			err.read(c,0,c.length);
-			System.out.println(new String(c));
-			
-			Path decompiledJavaFile = null;
-			
-			return decompiledJavaFile;
+		 public void decompile(Path classFile) throws Exception{
+			Map<String, String> opts = new HashMap<String,String>();
+			opts.put("outputdir", outputDirRoot.toAbsolutePath().toString());
+			Options options = new OptionsImpl(classFile.toAbsolutePath().toString(), null, opts) ;
+			DCCommonState dcCommonState = new DCCommonState(options);
+			Main.doClass(dcCommonState, classFile.toFile().getAbsolutePath());			
 		}
 		
 		
@@ -242,7 +216,8 @@ public class Decompiler {
 		 * TODO: Test edge cases
 		 * TODO: handle exceptions
 		 */
-		public Path getSubdir(Path parent, Path child){
+		 @Deprecated
+		private Path getSubdir(Path parent, Path child){
 			Path parentAbsPath = parent.toAbsolutePath();
 			Path childAbsPath = child.toAbsolutePath();
 			Path subpath = child.subpath(parentAbsPath.getNameCount(),childAbsPath.getNameCount());
@@ -259,6 +234,7 @@ public class Decompiler {
 		 * @param	subDir		a Path object that is the package structure where to copy javaFile
 		 * @return	newFile		a Path object that is the new file copied or null if copy failed
 		 */
+		 @Deprecated
 		public Path copyJavaFileToOutDir(Path javaFile, Path subDir ) throws IOException{
 			boolean subDirIsCreated = false;
 			Path newFile = null;

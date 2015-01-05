@@ -4,22 +4,18 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import main.java.org.norc.utils.decompiler.controller.Decompiler;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DecompileTest {
 
 	@Test
 	public void testCopyJavaFileToOutDir() {
-		// move this to the setUpBeofreTestSuite method
 		Decompiler decompiler = new Decompiler(); 
 		decompiler.setInputDir( Paths.get("src/test/resources/input/") );
 		decompiler.setOutputDir( Paths.get("src/test/resources/output/"));
@@ -35,6 +31,35 @@ public class DecompileTest {
 			fail(e.getMessage());
 		} finally {
 			newFile.toFile().delete();
+			try {
+				FileUtils.deleteDirectory(new File("src/test/resources/output/level1/"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Test
+	public void testdecompile(){
+		Decompiler decompiler = new Decompiler(); 
+		decompiler.setInputDir( Paths.get("src/test/resources/input/") );
+		decompiler.setOutputDir( Paths.get("src/test/resources/output/"));
+		
+		Path testClassFile = Paths.get("src/test/resources/input/TestClassFile.class");
+		try {
+			decompiler.decompile(testClassFile);
+			Path decompiledJavaFile = Paths.get("src/test/resources/output/test/java/org/norc/utils/controller/TestClassFile.java");
+			assert(decompiledJavaFile.toFile().exists());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			fail(e.getMessage());
+		} finally {
+			try {
+				FileUtils.deleteDirectory(new File("src/test/resources/output/test/"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
