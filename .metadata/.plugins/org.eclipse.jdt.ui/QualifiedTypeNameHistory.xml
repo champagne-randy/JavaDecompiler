@@ -8,6 +8,13 @@
 <fullyQualifiedTypeName name="java.nio.file.attribute.BasicFileAttributes"/>
 <fullyQualifiedTypeName name="main.java.org.norc.utils.decompiler.utils.FileFinder"/>
 <fullyQualifiedTypeName name="java.nio.file.Path"/>
-<fullyQualifiedTypeName name="java.nio.file.Paths"/>
 <fullyQualifiedTypeName name="java.nio.file.Files"/>
+<fullyQualifiedTypeName name="java.nio.file.Paths"/>
+<fullyQualifiedTypeName name="org.apache.commons.io.FileUtils"/>
+<fullyQualifiedTypeName name="org.junit.BeforeClass"/>
+<fullyQualifiedTypeName name="org.benf.cfr.reader.Main"/>
+<fullyQualifiedTypeName name="org.benf.cfr.reader.state.DCCommonState"/>
+<fullyQualifiedTypeName name="org.benf.cfr.reader.util.getopt.Options"/>
+<fullyQualifiedTypeName name="org.benf.cfr.reader.util.getopt.OptionsImpl"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
 </qualifiedTypeNameHistroy>

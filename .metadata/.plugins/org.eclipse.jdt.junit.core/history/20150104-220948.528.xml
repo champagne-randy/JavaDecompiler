@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun test.java.org.norc.utils.controller.DecompileTest" project="JavaDecompiler" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="test.java.org.norc.utils.controller.DecompileTest" time="0.0">
-    <testcase name="testCopyJavaFileToOutDir" classname="test.java.org.norc.utils.controller.DecompileTest" time="0.0"/>
-  </testsuite>
-</testrun>
