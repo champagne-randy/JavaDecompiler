@@ -263,28 +263,3 @@ public class Decompiler {
 		private void setListOfClassFiles(List<Path> list){ this.listClassFiles = list; }
 		//private List<Path> getlistOfClassFiles()			{ return this.listClassFiles; }
 }
-
-
-/*
- // for validation
-static void usage() {
-    System.err.println("java Decompiler <input path> <output path>";
-    System.exit(-1);
-}
-
-public static void main(String[] args) throws IOException {
-
-    if (args.length < 4 || !args[1].equals("-input") || !args[3].equals("-output"))
-        usage();
-
-    Path inputDirRoot = Paths.get(args[2]);
-    Path outputDirRoot = Paths.get(args[4]);
-    
-    
-    String pattern = args[2];
-
-    Finder finder = new Finder(pattern);
-    Files.walkFileTree(startingDir, finder);
-    finder.done();
-}
-*/
