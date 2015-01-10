@@ -21,7 +21,7 @@ public class Decompiler {
 	
 		private Path inputDirRoot = null;
 		private Path outputDirRoot = null;
-		List<Path> listClassFiles = null;  
+		List<Path> listClassFiles = null; 
 
 		/**
 		 * This utility will iterate through a directory and decompile every class file in the directory
