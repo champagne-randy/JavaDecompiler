@@ -1,0 +1,43 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Directory for instrumented libs generate by jscoverage/JSCover
+lib-cov
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Grunt intermeditae storage (gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# node-waf configuration
+.lock-wscript
+
+# Copiled binaries addons (nodejs.org/api/addons.html)
+build/release
+
+# Dependency directory
+# docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
+node_modules
+
+# Frontend libraries installed using bower
+client/app/styles/vendors/**/*
+
+# Frontend libraries in client asset dir
+client/public/libs
+
+# Deleted folders and files
+._delete_*
+
+# Mac files
+.DS_Store
+
+# Sass pre-processor cache
+.sass-cache
